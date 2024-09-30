@@ -1,5 +1,6 @@
 class Admin:
     def __init__(self,count):
+        self.admin_code="admin"
         self.margin_rate=0.4
         self.count=count
         self.ticket_price=10_000
