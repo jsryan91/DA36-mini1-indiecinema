@@ -1,12 +1,14 @@
 from movie.movie_service import *
 from theater.theater_service import *
 from admin.admin_service import *
-from rev.rev_entity import *
+from rev.rev_service import *
+from rev.rev_repo import *
 
 movie = MovieService()
 theater = TheaterService()
 admin = AdminService()
-rev = RevEntity()
+rev = RevService()
+rev_repo = RevRepo()
 
 
 
@@ -19,7 +21,7 @@ def main_menu():
                 movie_menu()
 
             case "2": # 1처럼 부를 수 있게 설정
-                pass
+                check_rev()
             # ---------------------------------------------------------------------------------#
             case "3":
                 admin_code = input("관리자코드를 입력해주세요 > ")
@@ -69,7 +71,7 @@ def movie_menu():
                 time = movie_time_list[time_choice][0]  # => [10,베테랑2]
                 title = movie_time_list[time_choice][1]
                 seat = [x, y]
-                rev_id = rev.get_rev_id()
+                rev_id=rev.rev_make(title,time,seat)
                 # 결제가 완료된 후 예매 결과 출력
                 print_booking(title, time, seat, rev_id)
                 break
@@ -80,7 +82,7 @@ def movie_menu():
                 break
 
             else:
-                print("잘못된 입력입니다.\n😊 y 또는 n으로 입력해 주세요. 😊")  # 잘못 입력시 다시 y/n 선택
+                print("잘못된 입력입니다.\n😊 y 또는 n으로 입력해 주세요. > 😊")  # 잘못 입력시 다시 y/n 선택
 
 
         else:
@@ -121,6 +123,27 @@ def admin_menu(self):
 def print_booking(title, time, seat, rev_id):
             # 선택한 영화 제목
     print(f'[영화제목: {title}]\n[상영시간: {time}]\n[선택좌석: {seat}]\n[예매번호: {rev_id}]')
+
+
+# ---------------------------------------------------------------------------------#
+
+def check_rev():
+    user_rev_id = input("예매번호를 입력하세요 > ")
+    reservation=rev_repo.reservations
+    if user_rev_id.isdigit():
+        found = False # False로 초기화 (없다고 가정)
+        for rev in reservation:
+            if rev[0] == user_rev_id: # 예매 번호 일치시
+                print(f"예매 내역: 영화제목: {rev[1]} , 상영시간: {rev[2]},선택 좌석: {rev[3]}")
+                found = True
+                break
+
+        if not found: #True
+            print("존재하지 않는 예매번호입니다.")
+
+    else :
+        print("존재하지 않는 예매번호입니다 > ")
+
 
 if __name__ == '__main__':
     main_menu()
