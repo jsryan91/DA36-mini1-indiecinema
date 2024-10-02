@@ -22,7 +22,7 @@ class RevEntity:
         return self.today
 
     def get_rev_count(self):
-        return self.get_rev_id()
+        return self.rev_count
 
     def set_rev_id(self, new_rev_id):
         self.rev_id = new_rev_id
