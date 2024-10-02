@@ -1,5 +1,3 @@
-from msilib.schema import AdminExecuteSequence
-
 from admin.admin_entity import *
 from rev.rev_entity import *
 
