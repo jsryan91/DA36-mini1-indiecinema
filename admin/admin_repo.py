@@ -5,7 +5,6 @@ from rev.rev_entity import *
 
 class AdminRepo:
     def __init__(self):
-        self.admin_code = "Admin"
         self.rev_entity=RevEntity()
         self.admin_entity=AdminEntity()
 
@@ -15,7 +14,7 @@ class AdminRepo:
             Returns: 올바른 관리자 아이디일 경우 True, 아닐 경우 False
             """
 
-            if admin_code == self.admin_code:
+            if admin_code == self.admin_entity.get_admin_code():
                 return True
             else:
                 return False

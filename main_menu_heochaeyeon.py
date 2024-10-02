@@ -1,10 +1,14 @@
 from movie.movie_service import *
+from rev.rev_repo import *
+from rev.rev_entity import *
 from theater.theater_service import *
 from admin.admin_service import *
 
-movie=MovieService()
-theater=TheaterService()
-admin=AdminService()
+movie_service=MovieService()
+theater_service=TheaterService()
+admin_service=AdminService()
+rev_entity= RevEntity()
+rev_repo=RevRepo()
 
 def main_menu():
     while True:
@@ -15,13 +19,15 @@ def main_menu():
                 movie_menu()
 
             case "2":
-                pass
+                check_rev()
 # ---------------------------------------------------------------------------------#
             case "3":
                 admin_code = input("관리자코드를 입력해주세요 > ")
-                respond= admin.authenticate_admin(admin_code)
+                respond= admin_service.authenticate_admin(admin_code)
                 if respond== True:
                     admin_menu()
+                else:
+                    print("관리자 코드가 아닙니다.")
             case "0":
                 return False
             case _:
@@ -31,7 +37,7 @@ def main_menu():
 #-----------------------------------------------------------------------------------------------------------------------------------#
 def movie_menu():
     print(f'----상영 중인 영화----')
-    movie_time_list = theater.get_movie_time_list()
+    movie_time_list = theater_service.get_movie_time_list()
     for i in range(len(movie_time_list)):
         print(f'{i + 1}번) {movie_time_list[i][0]}:00 - {movie_time_list[i][1]}')
     while True:
@@ -41,7 +47,7 @@ def movie_menu():
         except ValueError:
             print("-------잘못된 입력입니다. 다시 입력하세요 ------")
 
-    seat = theater.get_seat_list(time_choice)
+    seat = theater_service.get_seat_list(time_choice)
     for r in range(len(seat)):
         print(" " * len(seat) + str(r), end="")
     print()
@@ -55,16 +61,33 @@ def movie_menu():
         except ValueError:
             print("-------잘못된 입력입니다. 다시 입력하세요 ------")
 
-        respond = theater.possible_seat_choice(x, y, time_choice)  ## 차지된 자리면 0 >> 다시 입력 1이면 통과
+        respond = theater_service.is_seat_empty(x, y, time_choice)  ## 차지된 자리면 0 >> 다시 입력 1이면 통과
 
         if respond == 1:
-            print("예약이 완료되었습니다.")
-            break
+            print(f'선택하신 자리는 {x},{y}입니다.')
+            pay_check = input("결제를 진행하시겠습니까? (y/n): ").lower()
+
+            if pay_check == "y":
+                print("🎫🎫🎫 예매가 완료되었습니다. 🎫🎫🎫")
+                theater_service.set_seat(x,y,time_choice)
+                print_booking(movie_time_list[time_choice][0] , movie_time_list[time_choice][1], [x, y],rev_entity.get_rev_id())
+                break
+
+
+            elif pay_check == 'n':
+                print("결제를 취소하여 프로그램을 종료합니다.\n🤗 다음에 또 오세요. 🤗")
+                break
+
+            else:
+                print("잘못된 입력입니다.\n😊 y 또는 n으로 입력해 주세요. 😊")  # 잘못 입력시 다시 y/n 선택
+
+
         else:
             print("이미 차지된 자리입니다.")
 
-    return False  # 예매 한번 완료하면 프로그램 종료 !!
+
 # ---------------------------------------------------------------------------------#
+
 
 def admin_menu(self):
     while True:
@@ -76,10 +99,10 @@ def admin_menu(self):
         choice = input("선택: ")
         match choice:
             case '1':
-                revenue, profit = admin.calculate_revenue_and_profit()
+                revenue, profit = admin_service.calculate_revenue_and_profit()
                 print(f"총 매출: {revenue}원, 총 이윤: {profit}원")
             case'2':
-                total_audience = admin.total_audience_count()
+                total_audience = admin_service.total_audience_count()
                 print(f"총 관객 수: {total_audience}명")
             case '3':
                 print("프로그램을 종료합니다.")
@@ -88,6 +111,31 @@ def admin_menu(self):
                 print("잘못된 선택입니다. 다시 시도하세요.")
 # ---------------------------------------------------------------------------------#
 
+def check_rev():
+    user_rev_id = input("예매번호를 입력하세요 > ")
+    reservation=rev_repo.reservations
+    if user_rev_id.isdigit():
+        found = False # False로 초기화 (없다고 가정)
+        for rev in reservation:
+            if rev[0] == user_rev_id: # 예매 번호 일치시
+                print(f"예매 내역: 영화제목: {rev[1]} , 상영시간: {rev[2]},선택 좌석: {rev[3]}")
+                found = True
+                break
+
+        if not found: #True
+            print("존재하지 않는 예매번호입니다.")
+
+    else :
+        print("존재하지 않는 예매번호입니다 > ")
+
+# ---------------------------------------------------------------------------------#
+
+
+
+def print_booking(title, time, seat, rev_id):
+            # 선택한 영화 제목
+    print('------------ 선택하신 영화 ----------')
+    print(f'[영화제목: {title}]\n[상영시간: {time}]\n[선택좌석: {seat}]\n[예매번호: {rev_id}]')
 
 
 if __name__ == '__main__':
