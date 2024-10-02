@@ -1,7 +1,7 @@
 
 from movie.movie_entity import *
 from theater import *
-from rev_entity import *
+from rev.rev_entity import *
 
 
 class RevRepo:
@@ -26,7 +26,7 @@ class RevRepo:
 
     # 예매 정보 생성 후 리스트 변환
     def rev_make(self, title, time, seat):
-        rev_entity = RevEntity(title, time, seat) # 객체 생성
+        rev_entity = RevEntity() # 객체 생성
         rev_id = rev_entity.get_rev_id() # id 받기
         reservation = [rev_id, title, time, seat]
         self.save_rev(reservation)
