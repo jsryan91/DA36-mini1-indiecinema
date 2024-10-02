@@ -4,7 +4,7 @@ from theater import *
 from rev_entity import *
 
 
-class RevRepository:
+class RevRepo:
     '''
     아는 것: 영화 정보, 상영 시간, 선택 좌석, id
     하는 것: 예매 정보 저장
@@ -31,7 +31,7 @@ time_1 = '10:00'
 seat_1 = '(1, 1)'
 
 # RevRepository 클래스의 인스턴트 생성
-repo = RevRepository()
+repo = RevRepo()
 
 # 예매정보 생성
 reservation = repo.rev_make(title_1, time_1, seat_1)
