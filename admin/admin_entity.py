@@ -23,3 +23,6 @@ class Admin:
 
     def set_ticket_price(self,new_ticket_price):
         self.ticket_price=new_ticket_price
+
+
+# get rev_count += 1
