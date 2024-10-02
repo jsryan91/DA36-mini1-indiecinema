@@ -21,6 +21,9 @@ class Rev:
     def get_today(self):
         return self.today
 
+    def get_rev_count(self):
+        return self.get_rev_id()
+
     def set_rev_id(self, new_rev_id):
         self.rev_id = new_rev_id
 
