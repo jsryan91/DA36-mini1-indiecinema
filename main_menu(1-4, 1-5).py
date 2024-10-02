@@ -6,6 +6,8 @@
 # 예매한 영화제목(title) / 시간(time) / 좌석(seat) / 예매번호(rev_id) 출력 *단어는 임시 설정
 
 # 영화 예매 결과 출력
+# import
+
 def rev_movie(title, time, seat, rev_id):
     print(f"영화제목 : {title}")
     print(f"상영시간 : {time}")
@@ -34,11 +36,11 @@ while True:
         break
 
     elif pay_check == 'n':
-        print("결제를 취소하여 프로그램을 종료합니다.\n🤗🤗🤗 다음에 또 오세요.🤗🤗🤗")
+        print("결제를 취소하여 프로그램을 종료합니다.\n🤗 다음에 또 오세요. 🤗")
         break
 
     else:
-        print("잘못된 입력입니다.\n😊😊😊 y 또는 n으로 입력해 주세요.😊😊😊") # 잘못 입력시 다시 y/n 선택
+        print("잘못된 입력입니다.\n😊 y 또는 n으로 입력해 주세요. 😊") # 잘못 입력시 다시 y/n 선택
 
 
 
