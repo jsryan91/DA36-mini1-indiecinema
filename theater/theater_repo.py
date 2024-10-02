@@ -70,15 +70,19 @@ class TheaterRepo:
 
 #---------------------------------------------------------------------------------------------------#
 
-    def possible_seat_choice(self, x, y,time_choice): # 고른자리가 구매가능한지 확인하기
+    def is_seat_empty(self, x, y,time_choice): # 고른자리가 구매가능한지 확인하기
         seat= self.seat_list[time_choice]
-        if seat[x][y]==0:
-            cell=self.ws.cell(row=time_choice*len(seat) + (x+1),column= y+2)
-            cell.value = 1
-            self.wb.save(self.path)
-            return 1
+        if seat[x][y]==0: return 1
         else: return 0
 
+#---------------------------------------------------------------------------------------------------#
+
+    def set_seat(self,x,y,time_choice):
+        seat = self.seat_list[time_choice]
+        if seat[x][y] == 0:
+            cell = self.ws.cell(row=time_choice * len(seat) + (x + 1), column=y + 2)
+            cell.value = 1
+        self.wb.save(self.path)
 
 
 if __name__ == '__main__':

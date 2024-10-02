@@ -17,7 +17,3 @@ class MovieRepo:
 #-------------------------------------------------------------------------#
     def get_movie_list(self):
         return self.movie_list
-#-------------------------------------------------------------------------#
-if __name__ == '__main__':
-    repo = MovieRepo()
-    print(repo.get_movie_list())

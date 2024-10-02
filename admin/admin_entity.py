@@ -4,9 +4,6 @@ class AdminEntity:
         self.margin_rate=0.4
         self.ticket_price=10_000
 
-    def __repr__(self):
-        return f'마진율: {self.margin_rate}, 판매량 : {self.count}, 티켓 값: {self.ticket_price}'
-
     def get_margin_rate(self):
         return self.margin_rate
     def get_ticket_price(self):
@@ -17,5 +14,8 @@ class AdminEntity:
     def set_ticket_price(self,new_ticket_price):
         self.ticket_price=new_ticket_price
 
+    def get_admin_code(self):
+        return self.admin_code
 
-# get rev_count += 1
+    def set_admin_code(self,new_admin_code):
+        self.admin_code=new_admin_code
