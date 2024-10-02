@@ -15,6 +15,6 @@ while True:
         case "3":
             admin_password=input("관리자 코드를 입력하세요 > ")
         case "0":
-            return False
+            pass
         case _:
             print("잘못된 입력입니다. 다시 입력하세요")
