@@ -7,7 +7,7 @@ today = datetime.today().strftime('%y%m%d')
 class RevEntity:
     rev_count = 1 # 예약 번호 생성 클래스 변수
 
-    def __init__(self,title, time, seat):
+    def __init__(self):
         self.today = today
         self.rev_id = f'{self.today}{RevEntity.rev_count}' # 예매 번호 생성
         RevEntity.rev_count += 1 # 예매 번호 증가
