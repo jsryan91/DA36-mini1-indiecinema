@@ -108,7 +108,7 @@ def check_rev():
         found = False # False로 초기화 (없다고 가정)
         for rev in reservation:
             if rev[0] == user_rev_id: # 예매 번호 일치시
-                print(f"예매 내역: 영화제목: {rev[1]} , 상영시간: {rev[2]},선택 좌석: {rev[3]}")
+                print(f"예매 내역: 영화제목: {rev[1]} , 상영시간: {rev[2]},선택 좌석: [{rev[3]},{rev[4]}]")
                 found = True
                 break
 
@@ -121,7 +121,7 @@ def check_rev():
 def print_booking(reservation, rev_id):
             # 선택한 영화 제목
     print('------------ 선택하신 영화 ----------')
-    print(f'[영화제목: {reservation[0]}]\n[상영시간: {reservation[1]}]\n[선택좌석: {reservation[2]}]\n[예매번호: {rev_id}]')
+    print(f'[영화제목: {reservation[0]}]\n[상영시간: {reservation[1]}:00]\n[선택좌석: [{reservation[2]},{reservation[3]}]]\n[예매번호: {rev_id}]')
 # ---------------------------------------------------------------------------------#
 def pay_check(x,y,time_choice,movie_time_list):
     while True:
@@ -129,9 +129,10 @@ def pay_check(x,y,time_choice,movie_time_list):
 
         if pay_check == "y":
             print("🎫🎫🎫 예매가 완료되었습니다. 🎫🎫🎫")
-            reservation=[movie_time_list[time_choice][0], movie_time_list[time_choice][1], [x, y]]
-            print_booking(reservation,rev_repo.rev_make(reservation))
-            rev_repo.save_rev([reservation])
+
+            reservation=[movie_time_list[time_choice][1], movie_time_list[time_choice][0],x,y]
+            rev_id=rev_repo.rev_make(reservation)
+            print_booking(reservation,rev_id)
             theater_service.set_seat(x, y, time_choice)
             break
 
