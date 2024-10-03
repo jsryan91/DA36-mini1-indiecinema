@@ -19,7 +19,8 @@ class RevRepo:
             with open(self.file_name, 'r', encoding = 'utf-8') as f:
                 for line in f:
                     # 파일에서 읽은 한 줄을 리스트로 변환하여 저장
-                    self.reservations.append(line.strip().split(', '))
+                    info=list(line.strip().split(','))
+                    self.reservations.append(info)
         except FileNotFoundError:
             print(f"{self.file_name} 파일이 존재하지 않습니다. 새로 생성됩니다.")
 
@@ -28,7 +29,7 @@ class RevRepo:
     def rev_make(self, rev):
         rev_entity = RevEntity() # 객체 생성
         rev_id = rev_entity.get_rev_id() # id 받기
-        reservation = [rev_id, rev[0], rev[1], [rev[2],rev[3]]]
+        reservation = rev_id, rev[0], rev[1], rev[2],rev[3]
         self.save_rev(reservation)
         return rev_id
 
@@ -40,3 +41,5 @@ class RevRepo:
             f.write(f'{reservation_str}\n')
         print(f"{self.file_name} 저장 완료")
 
+    def get_revs(self):
+        return self.reservations

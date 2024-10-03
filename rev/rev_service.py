@@ -10,3 +10,5 @@ class RevService:
     def save_rev(self,rev_id, reservation):
         self.rev_repo.save_rev(rev_id, reservation)  # 예매 정보 저장
 
+    def get_revs(self):
+        return  self.rev_repo.get_revs()
