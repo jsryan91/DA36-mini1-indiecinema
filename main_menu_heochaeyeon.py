@@ -74,6 +74,8 @@ def movie_menu():
                 print("이미 차지된 자리입니다.")
         except ValueError:
             print("-------잘못된 입력입니다. 다시 입력하세요 ------")
+        except IndexError:
+            print("-- 그런 자리는 없습니다. --")
 
 
 
