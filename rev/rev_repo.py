@@ -1,4 +1,4 @@
-
+import os
 from movie.movie_entity import *
 from theater import *
 from rev.rev_entity import *
@@ -10,8 +10,8 @@ class RevRepo:
     하는 것: 예매 정보 저장
     '''
     def __init__(self):
-
-        self.file_name = 'reservations.txt'
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        self.file_name = os.path.join(current_dir, 'reservations.txt')
         self.reservations = []
 
         # 파일에서 예매 정보를 읽어 리스트에 저장

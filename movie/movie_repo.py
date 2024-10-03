@@ -1,4 +1,4 @@
-import datetime
+import datetime, os
 
 class MovieRepo:
     def __init__(self):
@@ -7,7 +7,9 @@ class MovieRepo:
         self.set_movie_list()
 #-------------------------------------------------------------------------#
     def set_movie_list(self):
-        with open('C:/Workspaces/DA36-mini1-indiecinema/movie/movie.txt','r',encoding='utf-8') as f:
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        movie_file_path = os.path.join(current_dir, 'movie.txt')
+        with open(movie_file_path, 'r', encoding='utf-8') as f:
             text_line = f.read()
             text_line=text_line.split("\n")
             for i in range(len(text_line)):
