@@ -1,14 +1,12 @@
 from movie.movie_service import *
-from rev.rev_repo import *
-from rev.rev_entity import *
 from theater.theater_service import *
 from admin.admin_service import *
+from rev.rev_service import *
 
 movie_service=MovieService()
 theater_service=TheaterService()
 admin_service=AdminService()
-rev_entity= RevEntity()
-rev_repo=RevRepo()
+rev_service=RevService()
 
 def main_menu():
     while True:
@@ -103,16 +101,13 @@ def admin_menu():
 # ---------------------------------------------------------------------------------#
 def check_rev():
     user_rev_id = input("예매번호를 입력하세요 > ")
-    reservation=rev_repo.reservations
-
-    found = False # False로 초기화 (없다고 가정)
+    reservation=rev_service.get_revs()
     for rev in reservation:
         if rev[0] == user_rev_id: # 예매 번호 일치시
             print(f"예매 내역: 영화제목: {rev[1]} , 상영시간: {rev[2]},선택 좌석: [{rev[3]},{rev[4]}]")
-            found = True
             break
 
-    if not found: #True
+        else:
             print("존재하지 않는 예매번호입니다.")
 
 
@@ -130,7 +125,7 @@ def pay_check(x,y,time_choice,movie_time_list):
             print("🎫🎫🎫 예매가 완료되었습니다. 🎫🎫🎫")
 
             reservation=[movie_time_list[time_choice][1], movie_time_list[time_choice][0],x,y]
-            rev_id=rev_repo.rev_make(reservation)
+            rev_id=rev_service.rev_make(reservation)
             print_booking(reservation,rev_id)
             theater_service.set_seat(x, y, time_choice)
             break
