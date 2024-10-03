@@ -105,7 +105,7 @@ def admin_menu(self):
             revenue, profit = self.calculate_revenue_and_profit()
             print(f"총 매출: {revenue}원, 총 이윤: {profit}원")
         elif choice == '2':
-            total_audience = admin.get_count()
+            total_audience = self.total_audience_count()
             print(f"총 관객 수: {total_audience}명")
         elif choice == '3':
             print("프로그램을 종료합니다.")
@@ -114,10 +114,6 @@ def admin_menu(self):
             print("잘못된 선택입니다. 다시 시도하세요.")
 
 
-
-
-
-
 if authenticate_admin(admin_code)==True:
     admin_menu()
-    adm
+    pass
