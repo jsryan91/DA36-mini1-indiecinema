@@ -104,19 +104,18 @@ def admin_menu():
 def check_rev():
     user_rev_id = input("예매번호를 입력하세요 > ")
     reservation=rev_repo.reservations
-    if user_rev_id.isdigit():
-        found = False # False로 초기화 (없다고 가정)
-        for rev in reservation:
-            if rev[0] == user_rev_id: # 예매 번호 일치시
-                print(f"예매 내역: 영화제목: {rev[1]} , 상영시간: {rev[2]},선택 좌석: [{rev[3]},{rev[4]}]")
-                found = True
-                break
 
-        if not found: #True
+    found = False # False로 초기화 (없다고 가정)
+    for rev in reservation:
+        if rev[0] == user_rev_id: # 예매 번호 일치시
+            print(f"예매 내역: 영화제목: {rev[1]} , 상영시간: {rev[2]},선택 좌석: [{rev[3]},{rev[4]}]")
+            found = True
+            break
+
+    if not found: #True
             print("존재하지 않는 예매번호입니다.")
 
-    else :
-        print("존재하지 않는 예매번호입니다 > ")
+
 # ---------------------------------------------------------------------------------#
 def print_booking(reservation, rev_id):
             # 선택한 영화 제목

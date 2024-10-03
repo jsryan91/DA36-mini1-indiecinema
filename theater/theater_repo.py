@@ -1,12 +1,13 @@
 from theater.theater_entity import *
 import random
-import datetime
+import datetime, os
 import openpyxl as op
 from movie.movie_repo import *
 
 class TheaterRepo:
     def __init__(self):
-        self.path="C:/Workspaces/DA36-mini1-indiecinema/theater/theater.xlsx"
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        self.path = os.path.join(current_dir, 'theater.xlsx')
         self.date = datetime.datetime.now().strftime('%y%m%d') # excel-sheet를 date로 만들거임 !!
         self.movie_time_list = []
         #---MovieRepo에서 movie_list 가지고 오기-----------#
