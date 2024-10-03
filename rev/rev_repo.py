@@ -25,20 +25,20 @@ class RevRepo:
 
 
     # 예매 정보 생성 후 리스트 변환
-    def rev_make(self, title, time, seat):
+    def rev_make(self, rev):
         rev_entity = RevEntity() # 객체 생성
         rev_id = rev_entity.get_rev_id() # id 받기
-        reservation = [rev_id, title, time, seat]
+        reservation = [rev_id, rev[0], rev[1], rev[2]]
         self.save_rev(reservation)
         return rev_id
 
     # 예매 정보 저장
     def save_rev(self, reservation):
         self.reservations.append(reservation)
+        reservation_str=""
         with open(self.file_name, 'a', encoding='utf-8') as f:
-            reservation_str = ','.join(reservation) # 리스트를 쉼표 기준으로 문자열 변환
+            for s in reservation:
+                reservation_str+str(s)+','# 리스트를 쉼표 기준으로 문자열 변환
             f.write(f'{reservation_str}\n')
         print(f"{self.file_name} 저장 완료")
-
-
 

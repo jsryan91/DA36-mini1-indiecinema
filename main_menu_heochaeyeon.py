@@ -21,12 +21,13 @@ def main_menu():
 
             case "2":
                 check_rev()
-# ---------------------------------------------------------------------------------#
+
             case "3":
                 admin_code = input("관리자코드를 입력해주세요 > ")
                 respond= admin_service.authenticate_admin(admin_code)
                 if respond== True:
                     admin_menu()
+                    break
                 else:
                     print("관리자 코드가 아닙니다.")
             case "0":
@@ -64,19 +65,16 @@ def movie_menu():
     while True:
         try:
             x, y = map(int, input("자리를 선택해주세요 ex) 1,1 > ").split(','))  # 예외처리
-        except ValueError:
-            print("-------잘못된 입력입니다. 다시 입력하세요 ------")
-
-        try:
             respond = theater_service.is_seat_empty(x, y, time_choice)  ## 차지된 자리면 0 >> 다시 입력 1이면 통과
             if respond == 1:
                 print(f'선택하신 자리는 {x},{y}입니다.')
-                pay_check(x,y,time_choice,movie_time_list)
+                pay_check(x, y, time_choice, movie_time_list)
                 break
             else:
                 print("이미 차지된 자리입니다.")
-        except:
-            print("",end="")
+        except ValueError:
+            print("-------잘못된 입력입니다. 다시 입력하세요 ------")
+
 
 
 # ---------------------------------------------------------------------------------#
@@ -118,10 +116,10 @@ def check_rev():
     else :
         print("존재하지 않는 예매번호입니다 > ")
 # ---------------------------------------------------------------------------------#
-def print_booking(title, time, seat, rev_id):
+def print_booking(reservation, rev_id):
             # 선택한 영화 제목
     print('------------ 선택하신 영화 ----------')
-    print(f'[영화제목: {title}]\n[상영시간: {time}]\n[선택좌석: {seat}]\n[예매번호: {rev_id}]')
+    print(f'[영화제목: {reservation[0]}]\n[상영시간: {reservation[1]}]\n[선택좌석: {reservation[2]}]\n[예매번호: {rev_id}]')
 # ---------------------------------------------------------------------------------#
 def pay_check(x,y,time_choice,movie_time_list):
     while True:
@@ -129,8 +127,10 @@ def pay_check(x,y,time_choice,movie_time_list):
 
         if pay_check == "y":
             print("🎫🎫🎫 예매가 완료되었습니다. 🎫🎫🎫")
+            reservation=[movie_time_list[time_choice][0], movie_time_list[time_choice][1], [x, y]]
+            print_booking(reservation,rev_repo.rev_make(reservation))
+            rev_repo.save_rev([reservation])
             theater_service.set_seat(x, y, time_choice)
-            print_booking(movie_time_list[time_choice][0], movie_time_list[time_choice][1], [x, y], rev_entity.get_rev_id())
             break
 
         elif pay_check == 'n':
