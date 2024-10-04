@@ -1,6 +1,6 @@
 from theater.theater_entity import *
 import random
-import datetime, os
+import datetime
 import openpyxl as op
 from movie.movie_repo import *
 
@@ -19,17 +19,21 @@ class TheaterRepo:
         self.theater_entity=Theater()
         self.time_list=self.theater_entity.get_time_list()
         self.seat_list = self.theater_entity.get_seat_list()
+        #--------------------------------------------------#
+        self.open_xlsx()
 #---------------------------------------------------------------------------------------------------#
  ## .xlsx wb 만들고 sheet 생성
     def open_xlsx(self):
-
+        # workbook 있나 확인하기 --------------------#
         try:
             self.wb = op.load_workbook(self.path)
         except:
             self.wb = op.Workbook()
             self.wb.save(self.path)
         sheet=str(self.date)
+        #--------------------------------------------#
 
+        # worsheet 있나 확인하기 --------------------# > 없으면 만들고 movie time list도 excel에 추가하기
         if sheet not in self.wb.sheetnames:
             self.wb.create_sheet(title=sheet)
             self.wb.save(self.path)
@@ -45,28 +49,30 @@ class TheaterRepo:
                     for p in range(len(seat[0])):
                         cell=self.ws.cell(row=i*len(seat)+j+1,column=p+2)
                         cell.value=seat[j][p]
+        #--------------------------------------------------------------------------------------------------#
+
         else:
             for i in range(len(self.time_list)):
                 self.ws=self.wb[sheet]
                 cell=self.ws.cell(row=1+i*len(self.seat_list[i][1]),column=1)
                 if cell.value is not None:
                     self.movie_time_list.append(list(cell.value.split("/")))
+                seat=self.seat_list[i]
+                for j in range(len(seat)):
+                    for p in range(len(seat[0])):
+                        cell = self.ws.cell(row=1 + j + len(seat) * i, column=p + 2)
+                        seat[j][p] = cell.value
         self.wb.save(self.path)
-
-#---------------------------------------------------------------------------------------------------#
-
-    def get_movie_time_list(self): # 영화 및 상영시간 return
-        self.open_xlsx()
         return self.movie_time_list
 
 #---------------------------------------------------------------------------------------------------#
 
-    def get_seat_list(self,time_choice): # 영화 상영시간 별 좌석 return
-        seat=self.seat_list[time_choice]
-        for i in range(len(seat)):
-            for j in range(len(seat[0])):
-                cell = self.ws.cell(row=1+i+len(seat)*time_choice, column= j + 2)
-                seat[i][j]=cell.value
+    def get_movie_time_list(self): # 영화 및 상영시간 return
+        return self.movie_time_list
+
+#---------------------------------------------------------------------------------------------------#
+
+    def get_movie_seat_list(self,time_choice): # 영화 상영시간 별 좌석 return
         return self.seat_list[time_choice]
 
 #---------------------------------------------------------------------------------------------------#
@@ -87,15 +93,18 @@ class TheaterRepo:
 
 #---------------------------------------------------------------------------------------------------#
 
-    def is_seat_full(self,time_choice):
-        count=0
-        seat=self.get_seat_list(time_choice)
-        for i in range(len(seat)):
-            for j in range(len(seat[0])):
-                if seat[i][j]==1:
-                    count+=1
-        if count==len(seat)*len(seat[0]):
-            return False
-        else: return True
+    def is_seat_full(self):
+        count_seat=[0 for i in range(len(self.seat_list))]
+        for i in range(len(self.seat_list)):
+            seat=self.seat_list[i]
+            for j in range(len(seat)):
+                for p in range(len(seat[0])):
+                    if seat[j][p]==1:
+                        count_seat[i]+=1
+            if count_seat[i]==len(seat)*len(seat[0]):
+                 count_seat[i]=1
+            else:
+                count_seat[i]=0
+        return count_seat
 
 #---------------------------------------------------------------------------------------------------#

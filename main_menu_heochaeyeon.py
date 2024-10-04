@@ -39,17 +39,23 @@ def main_menu():
 def movie_menu():
     print(f'----상영 중인 영화----')
     movie_time_list = theater_service.get_movie_time_list()
+    respond_list = theater_service.is_seat_full()
+
     for i in range(len(movie_time_list)):
-        print(f'{i + 1}번) {movie_time_list[i][0]}:00 - {movie_time_list[i][1]}')
+        if respond_list[i]==0:
+            print(f'{i + 1}번) {movie_time_list[i][0]}:00 - {movie_time_list[i][1]}')
+        else:
+            print(f'{i + 1}번) {movie_time_list[i][0]}:00 - {movie_time_list[i][1]} -- (매진입니다)')
+
     while True:
         try:
             time_choice = int(input("영화 상영 시간을 골라주세요 > ")) - 1  # 예외처리
-            seat = theater_service.get_seat_list(time_choice)
-            respond=theater_service.is_seat_full(time_choice)
-            if respond == True:
+            if respond_list[time_choice]==0:
+                seat = theater_service.get_movie_seat_list(time_choice)
                 break
             else:
-                print("해당 영화는 남은 좌석이 없습니다😭🥹.\n다른 영화를 선택해주세요")
+                print("매진이라니까요")
+
         except ValueError:
             print("------ 잘못된 입력입니다. 다시 입력하세요 ------")
         except IndexError:
@@ -104,15 +110,25 @@ def admin_menu():
                 print("잘못된 선택입니다. 다시 시도하세요.")
 # ---------------------------------------------------------------------------------#
 def check_rev():
+    count=0
     user_rev_id = input("예매번호를 입력하세요 > ")
     reservation=rev_service.get_revs()
     for rev in reservation:
         if rev[0] == user_rev_id: # 예매 번호 일치시
-            print(f"예매 내역: 영화제목: {rev[1]} , 상영시간: {rev[2]},선택 좌석: [{rev[3]},{rev[4]}]")
+            count=1
             break
+    if count==1:
+        print(f"예매 내역: 영화제목: {rev[1]} , 상영시간: {rev[2]},선택 좌석: [{rev[3]},{rev[4]}]")
+    else:
+        print("예매 내역이 없습니다.")
 
-        else:
-            print("존재하지 않는 예매번호입니다.")
+
+
+
+
+
+
+
 
 
 # ---------------------------------------------------------------------------------#
@@ -143,3 +159,8 @@ def pay_check(x,y,time_choice,movie_time_list):
 
 if __name__ == '__main__':
     main_menu()
+
+
+
+
+
