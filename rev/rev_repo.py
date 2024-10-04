@@ -57,7 +57,3 @@ class RevRepo:
 
     def get_count(self):
         return len(self.reservations)
-
-if __name__ == '__main__':
-    r=RevRepo()
-    print(r.reservation_info(['1','12','1','1']))
