@@ -7,8 +7,8 @@ class TheaterService:
     def get_movie_time_list(self):
         return self.theater_repo.get_movie_time_list()
 
-    def get_seat_list(self, time_choice):
-        return self.theater_repo.get_seat_list(time_choice)
+    def get_movie_seat_list(self, time_choice):
+        return self.theater_repo.get_movie_seat_list(time_choice)
 
     def is_seat_empty(self, x, y,time_choice):
         return self.theater_repo.is_seat_empty(x,y,time_choice)
@@ -16,5 +16,5 @@ class TheaterService:
     def set_seat(self,x,y,time_choice):
         return self.theater_repo.set_seat(x,y,time_choice)
 
-    def is_seat_full(self,time_choice):
-        return self.theater_repo.is_seat_full(time_choice)
+    def is_seat_full(self):
+        return self.theater_repo.is_seat_full()
