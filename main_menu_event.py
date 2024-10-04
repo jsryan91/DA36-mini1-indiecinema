@@ -60,8 +60,35 @@ def movie_menu():
         except IndexError:
             print("------올바른 영화 번호가 아닙니다. 다시 입력하세요------")
 
+    # 선택한 영화에 대한 이벤트 알림
+    for i in range(len(movie_time_list)):
+        print(f'{i + 1}번) {movie_time_list[i][0]}:00 - {movie_time_list[i][1]}')
+    while True:
+        try:
+            event_choice = int(input("이벤트 선택을 해주세요."))
+            movie_event = event_service.get_event_by_title(event_choice)
+            if movie_event[0] == title:
+                return movie_event[1]
+        except :
+            return None
 
-# 좌석 사각형으로 출력하는 코드 # --> 좌석별 o.x 표시하는거 구현할 수 있는지 확인
+    while True:
+        event_check = input("이벤트 선택을 진행하시겠습니까? (y/n): ").lower()
+
+        if event_check == "y":
+            print("이벤트 선택이 완료되어 다음 단계로 넘어갑니다.")
+            break
+        elif event_check == 'n':
+            print("이벤트 미수령으로 선택하여 다음 단계로 넘어갑니다.")
+            break
+        else:
+            print("잘못된 입력입니다.\n😊 y 또는 n으로 입력해 주세요. 😊")
+        except ValueError:
+            print("------ 잘못된 입력입니다. 다시 입력하세요 ------")
+
+
+
+    # 좌석 사각형으로 출력하는 코드 # --> 좌석별 o.x 표시하는거 구현할 수 있는지 확인
     for r in range(len(seat)):
         print(" " * len(seat) + str(r), end="")
     print()
