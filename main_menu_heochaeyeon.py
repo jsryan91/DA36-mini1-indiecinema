@@ -8,6 +8,7 @@ theater_service=TheaterService()
 admin_service=AdminService()
 rev_service=RevService()
 
+#-----------------------------------------------------------------------------------------------------------------------------------#
 def main_menu():
     while True:
         select=input("1. 영화 예매 2.예매 조회 3. 관리자모드  0.종료 > ")
@@ -32,20 +33,17 @@ def main_menu():
                 return False
             case _:
                 print("잘못된 입력입니다. 다시 입력하세요")
-
-
-
 #-----------------------------------------------------------------------------------------------------------------------------------#
 def movie_menu():
     print(f'----상영 중인 영화----')
-    movie_time_list = theater_service.get_movie_time_list()
+    title_time_list = theater_service.get_movie_time_list()
     respond_list = theater_service.is_seat_full()
 
-    for i in range(len(movie_time_list)):
+    for i in range(len(title_time_list)):
         if respond_list[i]==0:
-            print(f'{i + 1}번) {movie_time_list[i][0]}:00 - {movie_time_list[i][1]}')
+            print(f'{i + 1}번) {title_time_list[i][0]}:00 - {title_time_list[i][1]}')
         else:
-            print(f'{i + 1}번) {movie_time_list[i][0]}:00 - {movie_time_list[i][1]} -- (매진입니다)')
+            print(f'{i + 1}번) {title_time_list[i][0]}:00 - {title_time_list[i][1]} -- (매진입니다)')
 
     while True:
         try:
@@ -76,7 +74,7 @@ def movie_menu():
             respond = theater_service.is_seat_empty(x, y, time_choice)  ## 차지된 자리면 0 >> 다시 입력 1이면 통과
             if respond == 1:
                 print(f'선택하신 자리는 {x},{y}입니다.')
-                pay_check(x, y, time_choice, movie_time_list)
+                pay_check(x, y, time_choice, title_time_list)
                 break
             else:
                 print("이미 차지된 자리입니다.")
@@ -84,9 +82,6 @@ def movie_menu():
             print("-------잘못된 입력입니다. 다시 입력하세요 ------")
         except IndexError:
             print("-- 그런 자리는 없습니다. --")
-
-
-
 # ---------------------------------------------------------------------------------#
 def admin_menu():
     while True:
@@ -121,16 +116,6 @@ def check_rev():
         print(f"예매 내역: 영화제목: {rev[1]} , 상영시간: {rev[2]},선택 좌석: [{rev[3]},{rev[4]}]")
     else:
         print("예매 내역이 없습니다.")
-
-
-
-
-
-
-
-
-
-
 # ---------------------------------------------------------------------------------#
 def print_booking(reservation, rev_id):
             # 선택한 영화 제목
@@ -147,7 +132,7 @@ def pay_check(x,y,time_choice,movie_time_list):
             reservation=[movie_time_list[time_choice][1], movie_time_list[time_choice][0],x,y]
             rev_id=rev_service.rev_make(reservation)
             print_booking(reservation,rev_id)
-            theater_service.set_seat(x, y, time_choice)
+            theater_service.set_seat_sold(x, y, time_choice)
             break
 
         elif pay_check == 'n':
@@ -156,6 +141,7 @@ def pay_check(x,y,time_choice,movie_time_list):
 
         else:
             print("잘못된 입력입니다.\n😊 y 또는 n으로 입력해 주세요. 😊")  # 잘못 입력시 다시 y/n 선택
+#-----------------------------------------------------------------------------------------------------------------------------------#
 
 if __name__ == '__main__':
     main_menu()
