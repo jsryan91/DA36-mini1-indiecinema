@@ -1,98 +1,98 @@
-# main #4 관리자 + admin Class 짜기
+from movie.movie_service import *
+from theater.theater_service import *
+from admin.admin_service import *
+from rev.rev_service import *
+from event.event_service import *
 
-# Constants
-ticket_price=10_000  # 티켓 가격은 10,000원
-margin_rate=0.4      # 마진율 40%
-admin_code="admin"    # 관리자 아이디
+movie_service=MovieService()
+theater_service=TheaterService()
+admin_service=AdminService()
+rev_service=RevService()
+event_service=EventService()
 
-def authenticate_admin():
-    """
-    관리자 아이디를 입력받아 인증하는 함수.
-    
-    Returns:
-    bool: 올바른 관리자 아이디일 경우 True, 아닐 경우 False
-    """
-    admin_id = input("관리자 아이디를 입력하세요: ")
-    if admin_id == admin_code:
-        return True
-    else:
-        print("잘못된 관리자 아이디입니다. 프로그램을 종료합니다.")
-        return False
+def main_menu():
+    while True:
+        select=input("1. 영화 예매 2. 예매 조회 3. 이벤트 조회 4. 관리자 모드  0.종료 > ")
 
-def calculate_revenue_and_profit(audience_count):
-    """
-    관객 수를 기반으로 총 매출과 이윤을 계산하는 함수.
-    
-    Parameters:
-    audience_count (int): 관객 수
-    
-    Returns:
-    tuple: 매출과 이윤 (revenue, profit)
-    """
-    revenue = ticket_price * audience_count
-    profit = revenue * margin_rate
-    return revenue, profit
+        match select:
+            case "1":
+                movie_menu()
+                break
 
-def show_total_revenue_and_profit():
-    """
-    관객 수를 입력받아 총 매출과 이윤을 출력하는 함수.
-    """
-    try:
-        audience_count = int(input("관객 수를 입력하세요: "))
-        if audience_count < 0:
-            print("관객 수는 음수가 될 수 없습니다.")
-            return
-    except ValueError:
-        print("유효한 숫자를 입력하세요.")
-        return
-    
-    revenue, profit = calculate_revenue_and_profit(audience_count)
-    print(f"총 매출: {revenue}원")
-    print(f"총 이윤: {profit}원")
+            case "2":
+                check_rev()
 
-def show_audience_count():
-    """
-    관객 수를 입력받아 출력하는 함수.
-    """
-    try:
-        audience_count = int(input("관객 수를 입력하세요: "))
-        if audience_count < 0:
-            print("관객 수는 음수가 될 수 없습니다.")
-            return
-        print(f"총 관객 수: {audience_count}명")
-    except ValueError:
-        print("유효한 숫자를 입력하세요.")
+            case "3":
+                event_menu()
 
-def admin_panel():
-    """
-    관리자 메뉴를 표시하는 함수. 인증 후 메뉴를 선택할 수 있음.
-    """
-    if not authenticate_admin():
-        return  # 인증 실패 시 종료
-    
-    print("\n관리자 메뉴:")
-    print("1. 총 매출과 이윤 확인")
-    print("2. 관객 수 확인")
-    
-    try:
-        choice = int(input("메뉴를 선택하세요 (1 또는 2): "))
-        if choice == 1:
-            show_total_revenue_and_profit()
-        elif choice == 2:
-            show_audience_count()
-        else:
-            print("잘못된 선택입니다.")
-    except ValueError:
-        print("유효한 숫자를 입력하세요.")
-
-# 관리자 메뉴 실행
-admin_panel()
+            case "4":
+                admin_code = input("관리자코드를 입력해주세요 > ")
+                respond= admin_service.authenticate_admin(admin_code)
+                if respond== True:
+                    admin_menu()
+                    break
+                else:
+                    print("관리자 코드가 아닙니다.")
+            case "0":
+                return False
+            case _:
+                print("잘못된 입력입니다. 다시 입력하세요")
 
 
 
+#-----------------------------------------------------------------------------------------------------------------------------------#
+def movie_menu():
+    print(f'----상영 중인 영화----')
+    movie_time_list = theater_service.get_movie_time_list()
+    for i in range(len(movie_time_list)):
+        print(f'{i + 1}번) {movie_time_list[i][0]}:00 - {movie_time_list[i][1]}')
+    while True:
+        try:
+            time_choice = int(input("영화 상영 시간을 골라주세요 > ")) - 1  # 예외처리
+            seat = theater_service.get_seat_list(time_choice)
+            respond=theater_service.is_seat_full(time_choice)
+            if respond == True:
+                break
+            else:
+                print("해당 영화는 남은 좌석이 없습니다😭🥹.\n다른 영화를 선택해주세요")
+        except ValueError:
+            print("------ 잘못된 입력입니다. 다시 입력하세요 ------")
+        except IndexError:
+            print("------올바른 영화 번호가 아닙니다. 다시 입력하세요------")
 
-#--------------------------------------------------------------------------------#수정해야함 >> main 안에
-def admin_menu(self):
+
+# 좌석 사각형으로 출력하는 코드 # --> 좌석별 o.x 표시하는거 구현할 수 있는지 확인
+    for r in range(len(seat)):
+        print(" " * len(seat) + str(r), end="")
+    print()
+    for r in range(len(seat)):
+        print(str(r) + ("|" + " " * len(seat)) * len(seat) + "|")
+
+    # seat-check 함수에 choice 넘겨
+    while True:
+        try:
+            x, y = map(int, input("자리를 선택해주세요 ex) 1,1 > ").split(','))  # 예외처리
+            respond = theater_service.is_seat_empty(x, y, time_choice)  ## 차지된 자리면 0 >> 다시 입력 1이면 통과
+            if respond == 1:
+                print(f'선택하신 자리는 {x},{y}입니다.')
+                pay_check(x, y, time_choice, movie_time_list)
+                break
+            else:
+                print("이미 차지된 자리입니다.")
+        except ValueError:
+            print("-------잘못된 입력입니다. 다시 입력하세요 ------")
+        except IndexError:
+            print("-- 그런 자리는 없습니다. --")
+
+# ---------------------------------------------------------------------------------#
+def event_menu():
+    print(f'--------진행 중인 이벤트---------')
+    event_list = event_service.get_event_list()
+    for i in range(len(event_list)):
+        print(f'{i + 1}번 영화제목: {event_list[i][0]}, 이벤트:{event_list[i][1]}, 이벤트 기간:{event_list[i][2]}')
+
+# ---------------------------------------------------------------------------------#
+def admin_menu():
     while True:
         print("\n메뉴를 선택하세요:")
         print("1. 총 매출 및 이윤 확인")
@@ -100,20 +100,56 @@ def admin_menu(self):
         print("3. 종료")
 
         choice = input("선택: ")
-
-        if choice == '1':
-            revenue, profit = self.calculate_revenue_and_profit()
-            print(f"총 매출: {revenue}원, 총 이윤: {profit}원")
-        elif choice == '2':
-            total_audience = self.total_audience_count()
-            print(f"총 관객 수: {total_audience}명")
-        elif choice == '3':
-            print("프로그램을 종료합니다.")
+        match choice:
+            case '1':
+                revenue, profit = admin_service.calculate_revenue_and_profit()
+                print(f"총 매출: {revenue}원, 총 이윤: {profit}원")
+            case'2':
+                total_audience = admin_service.total_audience_count()
+                print(f"총 관객 수: {total_audience}명")
+            case '3':
+                print("관리자 모드를 종료합니다.")
+                break
+            case _:
+                print("잘못된 선택입니다. 다시 시도하세요.")
+# ---------------------------------------------------------------------------------#
+def check_rev():
+    user_rev_id = input("예매번호를 입력하세요 > ")
+    reservation=rev_service.get_revs()
+    for rev in reservation:
+        if rev[0] == user_rev_id: # 예매 번호 일치시
+            print(f"예매 내역: 영화제목: {rev[1]} , 상영시간: {rev[2]},선택 좌석: [{rev[3]},{rev[4]}]")
             break
+
         else:
-            print("잘못된 선택입니다. 다시 시도하세요.")
+            print("존재하지 않는 예매번호입니다.")
 
 
-if authenticate_admin(admin_code)==True:
-    admin_menu()
-    pass
+# ---------------------------------------------------------------------------------#
+def print_booking(reservation, rev_id):
+            # 선택한 영화 제목
+    print('------------ 선택하신 영화 ----------')
+    print(f'[영화제목: {reservation[0]}]\n[상영시간: {reservation[1]}:00]\n[선택좌석: [{reservation[2]},{reservation[3]}]]\n[예매번호: {rev_id}]')
+# ---------------------------------------------------------------------------------#
+def pay_check(x,y,time_choice,movie_time_list):
+    while True:
+        pay_check = input("결제를 진행하시겠습니까? (y/n): ").lower()
+
+        if pay_check == "y":
+            print("🎫🎫🎫 예매가 완료되었습니다. 🎫🎫🎫")
+
+            reservation=[movie_time_list[time_choice][1], movie_time_list[time_choice][0],x,y]
+            rev_id=rev_service.rev_make(reservation)
+            print_booking(reservation,rev_id)
+            theater_service.set_seat(x, y, time_choice)
+            break
+
+        elif pay_check == 'n':
+            print("결제를 취소하여 프로그램을 종료합니다.\n🤗 다음에 또 오세요. 🤗")
+            break
+
+        else:
+            print("잘못된 입력입니다.\n😊 y 또는 n으로 입력해 주세요. 😊")  # 잘못 입력시 다시 y/n 선택
+
+if __name__ == '__main__':
+    main_menu()
