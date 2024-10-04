@@ -15,3 +15,6 @@ class TheaterService:
 
     def set_seat(self,x,y,time_choice):
         return self.theater_repo.set_seat(x,y,time_choice)
+
+    def is_seat_full(self,time_choice):
+        return self.theater_repo.is_seat_full(time_choice)

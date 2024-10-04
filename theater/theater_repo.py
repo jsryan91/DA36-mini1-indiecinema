@@ -85,7 +85,17 @@ class TheaterRepo:
             cell.value = 1
         self.wb.save(self.path)
 
+#---------------------------------------------------------------------------------------------------#
 
-if __name__ == '__main__':
-    t=TheaterRepo()
-    t.open_xlsx()
+    def is_seat_full(self,time_choice):
+        count=0
+        seat=self.get_seat_list(time_choice)
+        for i in range(len(seat)):
+            for j in range(len(seat[0])):
+                if seat[i][j]==1:
+                    count+=1
+        if count==len(seat)*len(seat[0]):
+            return False
+        else: return True
+
+#---------------------------------------------------------------------------------------------------#
