@@ -2,15 +2,17 @@ from movie.movie_service import *
 from theater.theater_service import *
 from admin.admin_service import *
 from rev.rev_service import *
+from event.event_service import *
 
 movie_service=MovieService()
 theater_service=TheaterService()
 admin_service=AdminService()
 rev_service=RevService()
+event_service=EventService()
 
 def main_menu():
     while True:
-        select=input("1. 영화 예매 2.예매 조회 3. 관리자모드  0.종료 > ")
+        select=input("1. 영화 예매 2. 예매 조회 3. 이벤트 조회 4. 관리자 모드  0.종료 > ")
 
         match select:
             case "1":
@@ -21,6 +23,9 @@ def main_menu():
                 check_rev()
 
             case "3":
+                event_menu()
+
+            case "4":
                 admin_code = input("관리자코드를 입력해주세요 > ")
                 respond= admin_service.authenticate_admin(admin_code)
                 if respond== True:
@@ -79,7 +84,12 @@ def movie_menu():
         except IndexError:
             print("-- 그런 자리는 없습니다. --")
 
-
+# ---------------------------------------------------------------------------------#
+def event_menu():
+    print(f'--------진행 중인 이벤트---------')
+    event_list = event_service.get_event_list()
+    for i in range(len(event_list)):
+        print(f'{i + 1}번 영화제목: {event_list[i][0]}, 이벤트:{event_list[i][1]}, 이벤트 기간:{event_list[i][2]}')
 
 # ---------------------------------------------------------------------------------#
 def admin_menu():
@@ -98,7 +108,7 @@ def admin_menu():
                 total_audience = admin_service.total_audience_count()
                 print(f"총 관객 수: {total_audience}명")
             case '3':
-                print("관리자 모드를   종료합니다.")
+                print("관리자 모드를 종료합니다.")
                 break
             case _:
                 print("잘못된 선택입니다. 다시 시도하세요.")
