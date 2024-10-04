@@ -42,37 +42,15 @@ class RevRepo:
     def reservation_info(self, rev):
         rev_id = self.make_rev_id() # id 받기
         reservation = rev_id, rev[0], rev[1], rev[2],rev[3]
-        print(reservation)
         self.save_rev(reservation)
         return reservation
 
     # 예매 정보 저장
-
-    # -----------------------------------------------------------#
-
-
-
-
-
-
-
-
-
-
-
-
     def save_rev(self, reservation):
         self.reservations.append(reservation)
         reservation_str=",".join(map(str,reservation))
         with open(self.file_name, 'a', encoding='utf-8') as f:
             f.write(f'{reservation_str}\n')
-
-
-
-
-
-
-
 
     def get_revs(self):
         return self.reservations

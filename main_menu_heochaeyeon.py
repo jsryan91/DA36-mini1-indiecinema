@@ -113,14 +113,15 @@ def check_rev():
             count=1
             break
     if count==1:
-        print(f"예매 내역: 영화제목: {rev[1]} , 상영시간: {rev[2]},선택 좌석: [{rev[3]},{rev[4]}]")
+        print("------------- 예매 내역 -------------")
+        print(f"영화제목: {rev[1]} / 상영시간: {rev[2]} / 선택 좌석: [{rev[3]},{rev[4]}]\n")
     else:
         print("예매 내역이 없습니다.")
 # ---------------------------------------------------------------------------------#
-def print_booking(reservation, rev_id):
+def print_booking(reservation):
             # 선택한 영화 제목
     print('------------ 선택하신 영화 ----------')
-    print(f'[영화제목: {reservation[0]}]\n[상영시간: {reservation[1]}:00]\n[선택좌석: [{reservation[2]},{reservation[3]}]]\n[예매번호: {rev_id}]')
+    print(f'[영화제목: {reservation[1]}]\n[상영시간: {reservation[2]}:00]\n[선택좌석: [{reservation[3]},{reservation[4]}]]\n[예매번호: {reservation[0]}]')
 # ---------------------------------------------------------------------------------#
 def pay_check(x,y,time_choice,movie_time_list):
     while True:
@@ -129,9 +130,9 @@ def pay_check(x,y,time_choice,movie_time_list):
         if pay_check == "y":
             print("🎫🎫🎫 예매가 완료되었습니다. 🎫🎫🎫")
 
-            reservation=[movie_time_list[time_choice][1], movie_time_list[time_choice][0],x,y]
-            rev_id=rev_service.rev_make(reservation)
-            print_booking(reservation,rev_id)
+            temp_reser=[movie_time_list[time_choice][1], movie_time_list[time_choice][0],x,y]
+            reservation=rev_service.reservation_info(temp_reser)
+            print_booking(reservation)
             theater_service.set_seat_sold(x, y, time_choice)
             break
 
