@@ -15,7 +15,7 @@ event_service=EventService()
 #-----------------------------------------------------------------------------------------------------------------------------------#
 def main_menu():
     while True:
-        select=input("1. 영화 예매 2. 예매 조회 3.전체 이벤트 4. 관리자모드  0.종료 > ")
+        select=input("1. 영화 예매 2. 예매 조회 3. 전체 이벤트 4. 관리자모드  0. 종료 > ")
 
         match select:
             case "1":
@@ -113,7 +113,7 @@ def admin_menu():
                 total_audience = admin_service.total_audience_count()
                 print(f"총 관객 수: {total_audience}명")
             case '3':
-                print("관리자 모드를   종료합니다.")
+                print("관리자 모드를 종료합니다.")
                 break
             case _:
                 print("잘못된 선택입니다. 다시 시도하세요.")
@@ -155,6 +155,7 @@ def event_menu():
     event_list = event_service.get_event_list()
     for i in range(len(event_list)):
         print(f'{i + 1}번 영화제목: {event_list[i][0]}, 이벤트:{event_list[i][1]}, 이벤트 기간:{event_list[i][2]}')
+    print()
 
 # ---------------------------------------------------------------------------------#
 def print_booking(reservation, movie_event):
