@@ -19,3 +19,6 @@ class MovieRepo:
 #-------------------------------------------------------------------------#
     def get_movie_list(self):
         return self.movie_list
+
+    def get_title(self, movie_index):
+        return self.movie_list[movie_index][0]

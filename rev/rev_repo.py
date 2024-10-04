@@ -39,7 +39,11 @@ class RevRepo:
         reservation_str=",".join(map(str,reservation))
         with open(self.file_name, 'a', encoding='utf-8') as f:
             f.write(f'{reservation_str}\n')
-        print(f"{self.file_name} 저장 완료")
 
     def get_revs(self):
         return self.reservations
+
+    # 총 예매 누적수 반환
+    def get_rev_count(self):
+        rev_count = len(self.reservations)
+        return rev_count
