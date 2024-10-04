@@ -45,7 +45,11 @@ def movie_menu():
         try:
             time_choice = int(input("영화 상영 시간을 골라주세요 > ")) - 1  # 예외처리
             seat = theater_service.get_seat_list(time_choice)
-            break
+            respond=theater_service.is_seat_full(time_choice)
+            if respond == True:
+                break
+            else:
+                print("해당 영화는 남은 좌석이 없습니다😭🥹.\n다른 영화를 선택해주세요")
         except ValueError:
             print("------ 잘못된 입력입니다. 다시 입력하세요 ------")
         except IndexError:
