@@ -9,3 +9,4 @@ class EventService:
 
     def get_event_by_title(self, title):
         return self.event_repo.get_event_by_title(title)
+
