@@ -14,7 +14,9 @@ event_service=EventService()
 
 #-----------------------------------------------------------------------------------------------------------------------------------#
 def main_menu():
+    print("--- Indiecinema 🍿 ---")
     while True:
+        print("이용하실 서비스 번호를 입력해주세요 ~ **\n")
         select=input("1. 영화 예매 2. 예매 조회 3.전체 이벤트 4. 관리자모드  0.종료 > ")
 
         match select:
@@ -42,7 +44,7 @@ def main_menu():
                 print("잘못된 입력입니다. 다시 입력하세요")
 #-----------------------------------------------------------------------------------------------------------------------------------#
 def movie_menu():
-    print(f'----상영 중인 영화----')
+    print('\n----상영 중인 영화----')
     title_time_list = theater_service.get_movie_time_list()
     respond_list = theater_service.is_seat_full()
 
@@ -54,15 +56,15 @@ def movie_menu():
 
     while True:
         try:
-            time_choice = int(input("영화 상영 시간을 골라주세요 > ")) - 1  # 예외처리
+            time_choice = int(input("\n영화 상영 시간을 골라주세요 > ")) - 1  # 예외처리
             if respond_list[time_choice] == 0:
                 seat = theater_service.get_movie_seat_list(time_choice)
                 movie_event = event_service.get_event_by_title(title_time_list[time_choice][1])
 
                 if movie_event == None:
-                    print("진행 중인 이벤트가 없습니다.")
+                    print("\n📍 해당 영화는 진행 중인 이벤트가 없습니다.")
                 else:
-                    print(f'진행 중인 이벤트는{movie_event}입니다.')
+                    print(f'\n📍진행 중인 이벤트는{movie_event}입니다.')
                 print()
                 break
             else:
@@ -87,11 +89,11 @@ def movie_menu():
             x, y = map(int, input("자리를 선택해주세요 ex) 1,1 > ").split(','))  # 예외처리
             respond = theater_service.is_seat_empty(x, y, time_choice)  ## 차지된 자리면 0 >> 다시 입력 1이면 통과
             if respond == 1:
-                print(f'선택하신 자리는 {x},{y}입니다.')
+                print(f'\n 💺선택하신 자리는 {x},{y}입니다.')
                 pay_check(x, y, time_choice, title_time_list, movie_event)
                 break
             else:
-                print("이미 차지된 자리입니다.")
+                print("\n 이미 차지된 자리입니다.")
         except ValueError:
             print("-------잘못된 입력입니다. 다시 입력하세요 ------")
         except IndexError:
@@ -131,16 +133,15 @@ def check_rev():
             break
 
     if count==1:
-        print("------------ 예매 내역 ------------")
+        print("\n------------ 예매 내역 ------------")
         for event in event_list:
            if event[0]==rev[1]:
                 print(f"영화제목: {rev[1]} / 상영시간: {rev[2]} / 선택 좌석: [{rev[3]},{rev[4]}] / 이벤트명: {event[1]}",end="\n\n")
-                temp=1
-
+                count=2
     else:
         print("예매 내역이 없습니다.")
 
-    if temp==0:
+    if count==1:
         print(f"영화제목: {rev[1]} / 상영시간: {rev[2]} / 선택 좌석: [{rev[3]},{rev[4]}]")
         print("🥹진행 중인 이벤트가 없습니다🥹",end="\n\n")
 
@@ -151,10 +152,11 @@ def check_rev():
 # ---------------------------------------------------------------------------------#
 
 def event_menu():
-    print(f'--------진행 중인 이벤트---------')
+    print('\n--------진행 중인 이벤트---------')
     event_list = event_service.get_event_list()
     for i in range(len(event_list)):
         print(f'{i + 1}번 영화제목: {event_list[i][0]}, 이벤트:{event_list[i][1]}, 이벤트 기간:{event_list[i][2]}')
+    print()
 
 # ---------------------------------------------------------------------------------#
 def print_booking(reservation, movie_event):
@@ -168,10 +170,10 @@ def print_booking(reservation, movie_event):
 # ---------------------------------------------------------------------------------#
 def pay_check(x,y,time_choice,movie_time_list, movie_event):
     while True:
-        pay_check = input("결제를 진행하시겠습니까? (y/n): ").lower()
+        pay_check = input("\n결제를 진행하시겠습니까? (y/n): ").lower()
 
         if pay_check == "y":
-            print("🎫🎫🎫 예매가 완료되었습니다. 🎫🎫🎫")
+            print("\n🎫🎫🎫 예매가 완료되었습니다. 🎫🎫🎫\n")
 
             temp_reser=[movie_time_list[time_choice][1], movie_time_list[time_choice][0],x,y]
             reservation=rev_service.reservation_info(temp_reser)
