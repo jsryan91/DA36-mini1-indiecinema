@@ -115,7 +115,7 @@ def admin_menu():
                 total_audience = admin_service.total_audience_count()
                 print(f"총 관객 수: {total_audience}명")
             case '3':
-                print("관리자 모드를   종료합니다.")
+                print("관리자 모드를 종료합니다.")
                 break
             case _:
                 print("잘못된 선택입니다. 다시 시도하세요.")
