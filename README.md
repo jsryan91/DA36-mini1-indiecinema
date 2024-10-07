@@ -38,14 +38,15 @@ IndieCinema는 독립영화관 영화 현장 예매 키오스크 콘솔 프로�
 ## 🎥 인디시네마의 시연영상 함께 보실까요?
 ###### 해당 팀원의 youtube 채널로 이동합니다. 영상 내용은 동일합니다.
 
+[![indiecinema의 시연영상](https://img.youtube.com/vi/b5c93B7LmgE/0.jpg)](https://youtu.be/b5c93B7LmgE?si=qccVx5oWY42ytTdv)
 
-[김정아의 채널](https://youtu.be/OA49HNgpa_E?si=nUdQBPnGgQJdxZme)
+[김정아의 채널에서 보기](https://youtu.be/OA49HNgpa_E?si=nUdQBPnGgQJdxZme)
 <br>
-[심정석의 채널](https://www.youtube.com/watch?v=C9HAoDm_--M)
+[심정석의 채널에서 보기](https://www.youtube.com/watch?v=C9HAoDm_--M)
 <br>
-[조한희의 채널](https://youtu.be/b5c93B7LmgE?si=PV0pb73ppMglAS-9)
+[조한희의 채널에서 보기](https://youtu.be/b5c93B7LmgE?si=PV0pb73ppMglAS-9)
 <br>
-[허채연의 채널](https://youtu.be/e6QbKj5W4f8?si=5ByYNl8veqf3mCNh)
+[허채연의 채널에서 보기](https://youtu.be/e6QbKj5W4f8?si=5ByYNl8veqf3mCNh)
 
 
 <br>
@@ -108,3 +109,25 @@ IndieCinema는 독립영화관 영화 현장 예매 키오스크 콘솔 프로�
 - 관리자
   1) 매출 확인
   2) 총 관객 수 확인
+
+<br>
+
+## 💭 인디시네마 팀원들의 소감 들어볼까요?
+***
+### 🟤허채연 (team lead)
+
+<br>
+
+### 🟣김정아 
+
+<br>
+
+### 🟡심정석
+
+<br>
+
+### 🟢조한희
+- 객체지향 개념을 학습한 후, 클래스 다이어그램을 그려 구조도를 작성하면서 객체지향 프로그램의 전체 흐름을 이해할 수 있었습니다.
+- Github 협업 도구를 사용하여 하나의 파일에서 공동작업하는 방법을 배우는 소중한 기회였습니다. 또 작은 부분도 하나하나 서로 소통하며 이해시키는 과정에서 소통의 중요성을 깨달았습니다.
+- 독립영화를 좋아한다는 개인적인 이유로 프로젝트 주제를 제안했는데, 프로젝트를 성공적으로 마무리할 수 있어 매우 뿌듯했습니다. 특히, 프로젝트의 출발점이었던 영화 별 이벤트 조회 기능을 후반부에 추가하면서 클래스를 통한 기능 구현 로직을 더 깊이 이해할 수 있었습니다.
+
